@@ -1,0 +1,5 @@
+query Episodes {
+    episodes {
+      __typename
+    }
+}
