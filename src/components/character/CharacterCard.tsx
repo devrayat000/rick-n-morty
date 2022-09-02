@@ -1,5 +1,6 @@
-import { Card, Image, Text } from "@mantine/core";
+import { Card, Image, Skeleton, Text } from "@mantine/core";
 import { NextLink } from "@mantine/next";
+import { useRouter } from "next/router";
 
 import type { EpisodeByIdQuery } from "~/graphql/generated";
 
@@ -11,6 +12,12 @@ export type CharacterCardProps = {
 };
 
 const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <Skeleton height={80} radius="md" />;
+  }
+
   return (
     <Card
       component={NextLink}

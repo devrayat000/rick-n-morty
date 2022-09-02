@@ -6,6 +6,14 @@ const nextConfig = {
   compiler: {
     emotion: true,
   },
+  experimental: {
+    images: {
+      allowFutureImage: true,
+    },
+  },
+  images: {
+    domains: ["rickandmortyapi.com"],
+  },
   async redirects() {
     return [
       {
@@ -14,7 +22,17 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/episode/details",
+        destination: "/episode/1",
+        permanent: true,
+      },
+      {
         source: "/character",
+        destination: "/character/1",
+        permanent: true,
+      },
+      {
+        source: "/character/details",
         destination: "/character/1",
         permanent: true,
       },

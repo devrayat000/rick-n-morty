@@ -1,5 +1,6 @@
-import { Card, SimpleGrid, Text } from "@mantine/core";
+import { Card, Skeleton, Text } from "@mantine/core";
 import { NextLink } from "@mantine/next";
+import { useRouter } from "next/router";
 
 import type { Episode, Maybe } from "~/graphql/generated";
 
@@ -8,6 +9,12 @@ export type EpisodeCardProps = {
 };
 
 const ExpisodeCard: React.FC<EpisodeCardProps> = ({ episode }) => {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <Skeleton height={80} radius="md" />;
+  }
+
   return (
     <Card
       withBorder

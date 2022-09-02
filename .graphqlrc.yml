@@ -3,6 +3,7 @@ documents: src/graphql/**/*.{gql,graphql}
 
 extensions:
   codegen:
+    overwrite: true
     schema: https://rickandmortyapi.com/graphql
     documents: src/graphql/**/*.{gql,graphql}
     generates:
@@ -13,3 +14,6 @@ extensions:
           - typescript-graphql-request
         config:
           gqlImport: graphql-request#gql
+          dedupeFragments: true
+          pureMagicComment: true
+          useTypeImports: true

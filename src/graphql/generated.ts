@@ -1,5 +1,5 @@
-import { GraphQLClient } from 'graphql-request';
-import * as Dom from 'graphql-request/dist/types.dom';
+import type { GraphQLClient } from 'graphql-request';
+import type * as Dom from 'graphql-request/dist/types.dom';
 import { gql } from 'graphql-request';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -255,7 +255,7 @@ export type CharactersIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CharactersIdQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', results?: Array<{ __typename?: 'Character', id?: string | null } | null> | null } | null };
 
-export const EpisodeFragFragmentDoc = gql`
+export const EpisodeFragFragmentDoc = /*#__PURE__*/ gql`
     fragment EpisodeFrag on Episode {
   id
   name
@@ -264,14 +264,14 @@ export const EpisodeFragFragmentDoc = gql`
   created
 }
     `;
-export const EpisodeCharactersFragFragmentDoc = gql`
+export const EpisodeCharactersFragFragmentDoc = /*#__PURE__*/ gql`
     fragment EpisodeCharactersFrag on Character {
   id
   name
   image
 }
     `;
-export const LocationFragFragmentDoc = gql`
+export const LocationFragFragmentDoc = /*#__PURE__*/ gql`
     fragment LocationFrag on Location {
   id
   name
@@ -280,7 +280,7 @@ export const LocationFragFragmentDoc = gql`
   created
 }
     `;
-export const EpisodePagesDocument = gql`
+export const EpisodePagesDocument = /*#__PURE__*/ gql`
     query EpisodePages {
   episodes {
     info {
@@ -289,7 +289,7 @@ export const EpisodePagesDocument = gql`
   }
 }
     `;
-export const EpisodesDocument = gql`
+export const EpisodesDocument = /*#__PURE__*/ gql`
     query Episodes($page: Int = 1) {
   episodes(page: $page) {
     info {
@@ -302,7 +302,7 @@ export const EpisodesDocument = gql`
   }
 }
     ${EpisodeFragFragmentDoc}`;
-export const EpisodeByIdDocument = gql`
+export const EpisodeByIdDocument = /*#__PURE__*/ gql`
     query EpisodeById($id: ID!) {
   episode(id: $id) {
     ...EpisodeFrag
@@ -313,7 +313,7 @@ export const EpisodeByIdDocument = gql`
 }
     ${EpisodeFragFragmentDoc}
 ${EpisodeCharactersFragFragmentDoc}`;
-export const EpisodesIdDocument = gql`
+export const EpisodesIdDocument = /*#__PURE__*/ gql`
     query EpisodesId {
   episodes {
     results {
@@ -322,7 +322,7 @@ export const EpisodesIdDocument = gql`
   }
 }
     `;
-export const CharacterPagesDocument = gql`
+export const CharacterPagesDocument = /*#__PURE__*/ gql`
     query CharacterPages {
   characters {
     info {
@@ -331,7 +331,7 @@ export const CharacterPagesDocument = gql`
   }
 }
     `;
-export const CharactersDocument = gql`
+export const CharactersDocument = /*#__PURE__*/ gql`
     query Characters($page: Int = 1) {
   characters(page: $page) {
     info {
@@ -344,7 +344,7 @@ export const CharactersDocument = gql`
   }
 }
     ${EpisodeCharactersFragFragmentDoc}`;
-export const CharacterByIdDocument = gql`
+export const CharacterByIdDocument = /*#__PURE__*/ gql`
     query CharacterById($id: ID!) {
   character(id: $id) {
     ...EpisodeCharactersFrag
@@ -367,7 +367,7 @@ export const CharacterByIdDocument = gql`
     ${EpisodeCharactersFragFragmentDoc}
 ${LocationFragFragmentDoc}
 ${EpisodeFragFragmentDoc}`;
-export const CharactersIdDocument = gql`
+export const CharactersIdDocument = /*#__PURE__*/ gql`
     query CharactersId {
   characters {
     results {

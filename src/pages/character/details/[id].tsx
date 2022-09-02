@@ -2,9 +2,11 @@ import {
   Box,
   Container,
   Group,
-  Image,
+  // Image,
   LoadingOverlay,
+  Paper,
   SimpleGrid,
+  Skeleton,
   Text,
   Title,
 } from "@mantine/core";
@@ -21,6 +23,8 @@ import Head from "next/head";
 import rqClient from "~/modules/rq-client";
 import api from "~/secvices/api";
 import ExpisodeCard from "~/components/episode/EpisodeCard";
+import Image from "next/future/image";
+import Info from "~/components/common/Info";
 
 const CharacterDetailsPage: NextPage<
   InferGetStaticPropsType<typeof getStaticProps>
@@ -30,9 +34,9 @@ const CharacterDetailsPage: NextPage<
   );
   const router = useRouter();
 
-  if (isFetching || router.isFallback) {
-    return <LoadingOverlay visible />;
-  }
+  // if (isFetching || router.isFallback) {
+  //   return <LoadingOverlay visible />;
+  // }
 
   return (
     <Container>
@@ -43,7 +47,9 @@ const CharacterDetailsPage: NextPage<
           content={`
             Name: ${data?.character?.name}
             Gender: ${data?.character?.gender}
-            Species: ${data?.character?.species}
+            Species: ${data?.character?.species}${
+            data?.character?.type ? "\nType: " + data.character.type : ""
+          }
           `}
         />
         <meta name="og:title" content={data?.character?.name!} />
@@ -55,22 +61,53 @@ const CharacterDetailsPage: NextPage<
           <Title weight={700} order={1}>
             {data?.character?.name}
           </Title>
-          <Text weight={400} size="xl">
-            {data?.character?.gender}
-          </Text>
-          <Text weight={400} size="xl">
-            {data?.character?.species}
-          </Text>
+          <Box mt="md">
+            <Info label="Gender">{data?.character?.gender}</Info>
+            <Info label="Species">{data?.character?.species}</Info>
+            <Info label="Status">{data?.character?.status}</Info>
+            <Info label="Type">{data?.character?.type}</Info>
+          </Box>
+
+          <Box mt="md">
+            <Text component="p" my={0} size="xl">
+              Origin:
+            </Text>
+            <Box>
+              <Info label="Name">{data?.character?.origin?.name}</Info>
+              <Info label="Type">{data?.character?.origin?.type}</Info>
+              <Info label="Dimension">
+                {data?.character?.origin?.dimension}
+              </Info>
+            </Box>
+          </Box>
+          <Box mt="md">
+            <Text component="p" my={0} size="xl">
+              Location:
+            </Text>
+            <Box>
+              <Info label="Name">{data?.character?.location?.name}</Info>
+              <Info label="Type">{data?.character?.location?.type}</Info>
+              <Info label="Dimension">
+                {data?.character?.location?.dimension}
+              </Info>
+            </Box>
+          </Box>
         </Box>
-        <Image
-          width={320}
-          radius="sm"
-          src={data?.character?.image!}
-          alt={data?.character?.name!}
-        />
+        <Paper radius="md" sx={{ overflow: "hidden" }}>
+          {isFetching || router.isFallback ? (
+            <Skeleton height={320} width={320} />
+          ) : (
+            <Image
+              width={320}
+              height={320}
+              src={data?.character?.image!}
+              alt={data?.character?.name!}
+            />
+          )}
+        </Paper>
       </Group>
 
-      <Box>
+      <Box mt="xl">
         <Title order={2} align="center">
           Episodes
         </Title>

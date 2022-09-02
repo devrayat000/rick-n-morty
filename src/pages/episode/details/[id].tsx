@@ -1,9 +1,6 @@
 import {
   Box,
-  Card,
   Container,
-  Group,
-  Image,
   LoadingOverlay,
   SimpleGrid,
   Text,
@@ -21,7 +18,6 @@ import Head from "next/head";
 
 import rqClient from "~/modules/rq-client";
 import api from "~/secvices/api";
-import { NextLink } from "@mantine/next";
 import CharacterCard from "~/components/character/CharacterCard";
 
 const EpisodeDetailsPage: NextPage<
@@ -55,7 +51,7 @@ const EpisodeDetailsPage: NextPage<
         <b>Aired:</b> {data?.episode?.air_date}
       </Text>
 
-      <Box>
+      <Box mt="xl">
         <Title order={2} align="center">
           Characters
         </Title>
