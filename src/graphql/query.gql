@@ -1,0 +1,86 @@
+# import "./fragment.gql"
+
+query EpisodePages {
+  episodes {
+    info {
+      pages
+    }
+  }
+}
+
+query Episodes($page: Int = 1) {
+  episodes(page: $page) {
+    info {
+      count
+      pages
+    }
+    results {
+      ...EpisodeFrag
+    }
+  }
+}
+
+query EpisodeById($id: ID!) {
+  episode(id: $id) {
+    ...EpisodeFrag
+    characters {
+      ...EpisodeCharactersFrag
+    }
+  }
+}
+
+query EpisodesId {
+  episodes {
+    results {
+      id
+    }
+  }
+}
+
+query CharacterPages {
+  characters {
+    info {
+      pages
+    }
+  }
+}
+
+query Characters($page: Int = 1) {
+  characters(page: $page) {
+    info {
+      count
+      pages
+    }
+    results {
+      ...EpisodeCharactersFrag
+    }
+  }
+}
+
+query CharacterById($id: ID!) {
+  character(id: $id) {
+    ...EpisodeCharactersFrag
+    status
+    species
+    type
+    gender
+    created
+    origin {
+      ...LocationFrag
+    }
+    location {
+      ...LocationFrag
+    }
+    episode {
+      ...EpisodeFrag
+    }
+  }
+}
+
+query CharactersId {
+  characters {
+    results {
+      id
+    }
+  }
+}

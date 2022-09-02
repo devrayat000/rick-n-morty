@@ -1,24 +1,18 @@
-import { RelayEnvironmentProvider } from "react-relay/hooks";
-import { getInitialPreloadedQuery, getRelayProps } from "relay-nextjs/app";
-import { getClientEnvironment } from "lib/relay_client_environment";
 import type { AppProps } from "next/app";
 import { MantineProvider } from "@mantine/core";
+import { Hydrate, QueryClientProvider } from "@tanstack/react-query";
 
-const clientEnv = getClientEnvironment();
-const initialPreloadedQuery = getInitialPreloadedQuery({
-  createClientEnvironment: () => getClientEnvironment()!,
-});
+import rqClient from "~/modules/rq-client";
 
 function ExampleApp({ Component, pageProps }: AppProps) {
-  const relayProps = getRelayProps(pageProps, initialPreloadedQuery);
-  const env = relayProps.preloadedQuery?.environment ?? clientEnv!;
-
   return (
-    <RelayEnvironmentProvider environment={env}>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
-        <Component {...pageProps} {...relayProps} />
-      </MantineProvider>
-    </RelayEnvironmentProvider>
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      <QueryClientProvider client={rqClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <Component {...pageProps} />
+        </Hydrate>
+      </QueryClientProvider>
+    </MantineProvider>
   );
 }
 

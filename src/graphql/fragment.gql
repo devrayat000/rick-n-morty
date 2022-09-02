@@ -1,0 +1,21 @@
+fragment EpisodeFrag on Episode {
+  id
+  name
+  air_date
+  episode
+  created
+}
+
+fragment EpisodeCharactersFrag on Character {
+  id
+  name
+  image
+}
+
+fragment LocationFrag on Location {
+  id
+  name
+  type
+  dimension
+  created
+}
