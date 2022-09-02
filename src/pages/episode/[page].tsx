@@ -37,7 +37,20 @@ const EpisodesPage: NextPage<Props> = ({ page }) => {
         Episodes
       </Title>
 
-      <SimpleGrid cols={4} mt="xl">
+      <SimpleGrid
+        cols={4}
+        breakpoints={[
+          {
+            minWidth: "md",
+            cols: 3,
+          },
+          {
+            minWidth: "lg",
+            cols: 4,
+          },
+        ]}
+        mt="xl"
+      >
         {data?.episodes?.results?.map((episode) => (
           <ExpisodeCard key={episode?.id} episode={episode} />
         ))}

@@ -37,7 +37,20 @@ const CharactersPage: NextPage<Props> = ({ page }) => {
         Characters
       </Title>
 
-      <SimpleGrid cols={4} mt="xl">
+      <SimpleGrid
+        cols={2}
+        breakpoints={[
+          {
+            minWidth: "md",
+            cols: 3,
+          },
+          {
+            minWidth: "lg",
+            cols: 4,
+          },
+        ]}
+        mt="xl"
+      >
         {data?.characters?.results?.map((character) => (
           <CharacterCard key={character?.id} character={character} />
         ))}

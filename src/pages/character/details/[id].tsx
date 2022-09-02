@@ -2,11 +2,9 @@ import {
   Box,
   Container,
   Group,
-  // Image,
   LoadingOverlay,
   Paper,
   SimpleGrid,
-  Skeleton,
   Text,
   Title,
 } from "@mantine/core";
@@ -19,11 +17,11 @@ import type {
   NextPage,
 } from "next";
 import Head from "next/head";
+import Image from "next/future/image";
 
 import rqClient from "~/modules/rq-client";
 import api from "~/secvices/api";
 import ExpisodeCard from "~/components/episode/EpisodeCard";
-import Image from "next/future/image";
 import Info from "~/components/common/Info";
 
 const CharacterDetailsPage: NextPage<
@@ -34,9 +32,9 @@ const CharacterDetailsPage: NextPage<
   );
   const router = useRouter();
 
-  // if (isFetching || router.isFallback) {
-  //   return <LoadingOverlay visible />;
-  // }
+  if (isFetching || router.isFallback) {
+    return <LoadingOverlay visible />;
+  }
 
   return (
     <Container>
@@ -56,11 +54,22 @@ const CharacterDetailsPage: NextPage<
         <meta name="og:image" content={data?.character?.image!} />
         <meta name="og:image:alt" content={data?.character?.name!} />
       </Head>
-      <Group position="apart" align="start">
+
+      <Title weight={700} order={1}>
+        {data?.character?.name}
+      </Title>
+
+      <Group
+        mt="md"
+        position="apart"
+        align="start"
+        sx={(theme) => ({
+          [theme.fn.smallerThan("md")]: {
+            flexDirection: "column-reverse",
+          },
+        })}
+      >
         <Box>
-          <Title weight={700} order={1}>
-            {data?.character?.name}
-          </Title>
           <Box mt="md">
             <Info label="Gender">{data?.character?.gender}</Info>
             <Info label="Species">{data?.character?.species}</Info>
@@ -94,16 +103,12 @@ const CharacterDetailsPage: NextPage<
           </Box>
         </Box>
         <Paper radius="md" sx={{ overflow: "hidden" }}>
-          {isFetching || router.isFallback ? (
-            <Skeleton height={320} width={320} />
-          ) : (
-            <Image
-              width={320}
-              height={320}
-              src={data?.character?.image!}
-              alt={data?.character?.name!}
-            />
-          )}
+          <Image
+            width={320}
+            height={320}
+            src={data?.character?.image!}
+            alt={data?.character?.name!}
+          />
         </Paper>
       </Group>
 
@@ -111,7 +116,16 @@ const CharacterDetailsPage: NextPage<
         <Title order={2} align="center">
           Episodes
         </Title>
-        <SimpleGrid mt="xl" cols={3}>
+        <SimpleGrid
+          mt="xl"
+          cols={2}
+          breakpoints={[
+            {
+              minWidth: "md",
+              cols: 3,
+            },
+          ]}
+        >
           {data?.character?.episode.map((episode) => (
             <ExpisodeCard key={episode?.id} episode={episode} />
           ))}

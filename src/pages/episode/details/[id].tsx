@@ -55,7 +55,16 @@ const EpisodeDetailsPage: NextPage<
         <Title order={2} align="center">
           Characters
         </Title>
-        <SimpleGrid mt="xl" cols={3}>
+        <SimpleGrid
+          mt="xl"
+          cols={2}
+          breakpoints={[
+            {
+              minWidth: "md",
+              cols: 3,
+            },
+          ]}
+        >
           {data?.episode?.characters.map((character) => (
             <CharacterCard key={character?.id} character={character} />
           ))}

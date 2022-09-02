@@ -29,7 +29,7 @@ class ExampleDocument extends NextDocument {
 
   render() {
     return (
-      <Html>
+      <Html lang="en-US">
         <Head />
         <body>
           <Main />
