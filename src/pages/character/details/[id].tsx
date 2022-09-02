@@ -19,16 +19,18 @@ import type {
 import Head from "next/head";
 import Image from "next/future/image";
 
-import rqClient from "~/modules/rq-client";
-import api from "~/secvices/api";
 import ExpisodeCard from "~/components/episode/EpisodeCard";
 import Info from "~/components/common/Info";
+
+function getCharacterById(id: string) {
+  return import("~/secvices/api").then((m) => m.default.CharacterById({ id }));
+}
 
 const CharacterDetailsPage: NextPage<
   InferGetStaticPropsType<typeof getStaticProps>
 > = ({ id }) => {
   const { data, isFetching } = useQuery(["character", id], ({ queryKey }) =>
-    api.CharacterById({ id: queryKey[1] })
+    getCharacterById(queryKey[1])
   );
   const router = useRouter();
 
@@ -138,6 +140,7 @@ const CharacterDetailsPage: NextPage<
 export default CharacterDetailsPage;
 
 export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
+  const { default: api } = await import("~/secvices/api");
   const data = await api.CharactersId();
 
   return {
@@ -149,7 +152,12 @@ export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
 };
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
-  const { dehydrate } = await import("@tanstack/react-query");
+  const [{ dehydrate }, { default: rqClient }, { default: api }] =
+    await Promise.all([
+      import("@tanstack/react-query"),
+      import("~/modules/rq-client"),
+      import("~/secvices/api"),
+    ]);
 
   const id = ctx.params?.id as string;
   await rqClient.prefetchQuery(["character", id], ({ queryKey }) =>

@@ -16,14 +16,18 @@ import type {
 import { useRouter } from "next/router";
 
 import ExpisodeCard from "~/components/episode/EpisodeCard";
-import rqClient from "~/modules/rq-client";
-import api from "~/secvices/api";
+
+function getEpisodesByPage(page: number | string) {
+  return import("~/secvices/api").then((m) =>
+    m.default.Episodes({ page: page as number })
+  );
+}
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const EpisodesPage: NextPage<Props> = ({ page }) => {
   const { data, isFetching } = useQuery(["episodes", page], ({ queryKey }) =>
-    api.Episodes({ page: queryKey[1] as number })
+    getEpisodesByPage(queryKey[1])
   );
   const router = useRouter();
 
@@ -38,7 +42,7 @@ const EpisodesPage: NextPage<Props> = ({ page }) => {
       </Title>
 
       <SimpleGrid
-        cols={4}
+        cols={2}
         breakpoints={[
           {
             minWidth: "md",
@@ -71,7 +75,9 @@ const EpisodesPage: NextPage<Props> = ({ page }) => {
 };
 
 export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
+  const { default: api } = await import("~/secvices/api");
   const { episodes } = await api.EpisodePages();
+
   return {
     paths: Array.from(new Array(episodes?.info?.pages).keys()).map((page) => ({
       params: { page: String(++page) },
@@ -81,7 +87,12 @@ export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
 };
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
-  const { dehydrate } = await import("@tanstack/react-query");
+  const [{ dehydrate }, { default: rqClient }, { default: api }] =
+    await Promise.all([
+      import("@tanstack/react-query"),
+      import("~/modules/rq-client"),
+      import("~/secvices/api"),
+    ]);
   const page = parseInt(ctx.params?.page as string);
 
   await rqClient.prefetchQuery(["episodes", page], ({ queryKey }) =>

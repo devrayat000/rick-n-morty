@@ -13,6 +13,7 @@ const ExpisodeCard: React.FC<EpisodeCardProps> = ({ episode }) => {
       withBorder
       radius="md"
       component={NextLink}
+      prefetch={false}
       href="/episode/details/[id]"
       as={`/episode/details/${episode?.id}`}
     >

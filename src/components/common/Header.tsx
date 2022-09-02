@@ -86,6 +86,7 @@ export default function MyHeader({
     <Button
       key={link.label}
       component={NextLink}
+      prefetch={false}
       size="sm"
       href={link.link}
       variant={router.pathname.includes(link.link) ? "light" : "subtle"}
