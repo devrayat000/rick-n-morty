@@ -1,3 +1,4 @@
+import { PureComponent } from "react";
 import { Text } from "@mantine/core";
 
 export interface InfoProps {
@@ -5,17 +6,17 @@ export interface InfoProps {
   children: React.ReactNode;
 }
 
-const Info: React.FC<InfoProps> = ({ label, children }) => {
-  if (!children) {
-    return null;
+export default class Info extends PureComponent<InfoProps> {
+  render() {
+    if (!this.props.children) {
+      return null;
+    }
+
+    return (
+      <Text weight={400} size="xl" component="p" my={0}>
+        <b>{this.props.label}: </b>
+        {this.props.children}
+      </Text>
+    );
   }
-
-  return (
-    <Text weight={400} size="xl" component="p" my={0}>
-      <b>{label}: </b>
-      {children}
-    </Text>
-  );
-};
-
-export default Info;
+}

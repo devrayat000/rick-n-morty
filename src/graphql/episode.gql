@@ -1,0 +1,36 @@
+query EpisodePages {
+  episodes {
+    info {
+      pages
+    }
+  }
+}
+
+query Episodes($page: Int = 1) {
+  episodes(page: $page) {
+    info {
+      count
+      pages
+    }
+    results {
+      ...EpisodeFrag
+    }
+  }
+}
+
+query EpisodeById($id: ID!) {
+  episode(id: $id) {
+    ...EpisodeFrag
+    characters {
+      ...EpisodeCharactersFrag
+    }
+  }
+}
+
+query EpisodesId {
+  episodes {
+    results {
+      id
+    }
+  }
+}

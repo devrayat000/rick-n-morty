@@ -1,0 +1,35 @@
+query LocationPages {
+  locations {
+    info {
+      pages
+    }
+  }
+}
+
+query Locations($page: Int = 1) {
+  locations(page: $page) {
+    info {
+      pages
+    }
+    results {
+      ...LocationFrag
+    }
+  }
+}
+
+query LocationById($id: ID!) {
+  location(id: $id) {
+    ...LocationFrag
+    residents {
+      ...EpisodeCharactersFrag
+    }
+  }
+}
+
+query LocationsId {
+  locations {
+    results {
+      id
+    }
+  }
+}

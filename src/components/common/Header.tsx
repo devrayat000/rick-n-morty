@@ -11,6 +11,7 @@ import {
   Stack,
   Overlay,
   Drawer,
+  Anchor,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { NextLink } from "@mantine/next";
@@ -53,43 +54,6 @@ const useStyles = createStyles((theme) => ({
       display: "none",
     },
   },
-
-  link: {
-    display: "block",
-    lineHeight: 1,
-    padding: "8px 12px",
-    borderRadius: theme.radius.sm,
-    textDecoration: "none",
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
-    fontSize: theme.fontSizes.sm,
-    fontWeight: 500,
-
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
-    },
-
-    [theme.fn.smallerThan("sm")]: {
-      borderRadius: 0,
-      padding: theme.spacing.md,
-    },
-  },
-
-  linkActive: {
-    "&, &:hover": {
-      backgroundColor: theme.fn.variant({
-        variant: "light",
-        color: theme.primaryColor,
-      }).background,
-      color: theme.fn.variant({ variant: "light", color: theme.primaryColor })
-        .color,
-    },
-  },
 }));
 
 interface HeaderResponsiveProps {
@@ -115,7 +79,7 @@ export default function MyHeader({
   links = DEFAULT_LINKS,
 }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
-  const { classes, cx } = useStyles();
+  const { classes } = useStyles();
   const router = useRouter();
 
   const items = links?.map((link) => (
@@ -134,7 +98,15 @@ export default function MyHeader({
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
-        <Title order={3}>R&M</Title>
+        <Anchor
+          size="xl"
+          variant="text"
+          weight={900}
+          component={NextLink}
+          href="/"
+        >
+          R&M
+        </Anchor>
         <Group key="links" spacing="md" className={classes.links}>
           {items}
         </Group>
@@ -144,6 +116,7 @@ export default function MyHeader({
           onClick={toggle}
           className={classes.burger}
           size="sm"
+          aria-label="Navigation Menu"
         />
 
         <Drawer
@@ -151,6 +124,9 @@ export default function MyHeader({
           opened={opened}
           onClose={close}
           classNames={{ drawer: classes.dropdown }}
+          overlayBlur={3}
+          closeOnEscape
+          shadow="sm"
         >
           <Stack>{items}</Stack>
         </Drawer>

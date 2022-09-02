@@ -201,11 +201,29 @@ export type QueryLocationsByIdsArgs = {
   ids: Array<Scalars['ID']>;
 };
 
-export type EpisodeFragFragment = { __typename?: 'Episode', id?: string | null, name?: string | null, air_date?: string | null, episode?: string | null, created?: string | null };
+export type CharacterPagesQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type EpisodeCharactersFragFragment = { __typename?: 'Character', id?: string | null, name?: string | null, image?: string | null };
 
-export type LocationFragFragment = { __typename?: 'Location', id?: string | null, name?: string | null, type?: string | null, dimension?: string | null, created?: string | null };
+export type CharacterPagesQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', info?: { __typename?: 'Info', pages?: number | null } | null } | null };
+
+export type CharactersQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type CharactersQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', info?: { __typename?: 'Info', count?: number | null, pages?: number | null } | null, results?: Array<{ __typename?: 'Character', id?: string | null, name?: string | null, image?: string | null } | null> | null } | null };
+
+export type CharacterByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type CharacterByIdQuery = { __typename?: 'Query', character?: { __typename?: 'Character', status?: string | null, species?: string | null, type?: string | null, gender?: string | null, created?: string | null, id?: string | null, name?: string | null, image?: string | null, origin?: { __typename?: 'Location', id?: string | null, name?: string | null, type?: string | null, dimension?: string | null, created?: string | null } | null, location?: { __typename?: 'Location', id?: string | null, name?: string | null, type?: string | null, dimension?: string | null, created?: string | null } | null, episode: Array<{ __typename?: 'Episode', id?: string | null, name?: string | null, air_date?: string | null, episode?: string | null, created?: string | null } | null> } | null };
+
+export type CharactersIdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CharactersIdQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', results?: Array<{ __typename?: 'Character', id?: string | null } | null> | null } | null };
 
 export type EpisodePagesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -231,29 +249,35 @@ export type EpisodesIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type EpisodesIdQuery = { __typename?: 'Query', episodes?: { __typename?: 'Episodes', results?: Array<{ __typename?: 'Episode', id?: string | null } | null> | null } | null };
 
-export type CharacterPagesQueryVariables = Exact<{ [key: string]: never; }>;
+export type EpisodeFragFragment = { __typename?: 'Episode', id?: string | null, name?: string | null, air_date?: string | null, episode?: string | null, created?: string | null };
+
+export type EpisodeCharactersFragFragment = { __typename?: 'Character', id?: string | null, name?: string | null, image?: string | null };
+
+export type LocationFragFragment = { __typename?: 'Location', id?: string | null, name?: string | null, type?: string | null, dimension?: string | null, created?: string | null };
+
+export type LocationPagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CharacterPagesQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', info?: { __typename?: 'Info', pages?: number | null } | null } | null };
+export type LocationPagesQuery = { __typename?: 'Query', locations?: { __typename?: 'Locations', info?: { __typename?: 'Info', pages?: number | null } | null } | null };
 
-export type CharactersQueryVariables = Exact<{
+export type LocationsQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type CharactersQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', info?: { __typename?: 'Info', count?: number | null, pages?: number | null } | null, results?: Array<{ __typename?: 'Character', id?: string | null, name?: string | null, image?: string | null } | null> | null } | null };
+export type LocationsQuery = { __typename?: 'Query', locations?: { __typename?: 'Locations', info?: { __typename?: 'Info', pages?: number | null } | null, results?: Array<{ __typename?: 'Location', id?: string | null, name?: string | null, type?: string | null, dimension?: string | null, created?: string | null } | null> | null } | null };
 
-export type CharacterByIdQueryVariables = Exact<{
+export type LocationByIdQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type CharacterByIdQuery = { __typename?: 'Query', character?: { __typename?: 'Character', status?: string | null, species?: string | null, type?: string | null, gender?: string | null, created?: string | null, id?: string | null, name?: string | null, image?: string | null, origin?: { __typename?: 'Location', id?: string | null, name?: string | null, type?: string | null, dimension?: string | null, created?: string | null } | null, location?: { __typename?: 'Location', id?: string | null, name?: string | null, type?: string | null, dimension?: string | null, created?: string | null } | null, episode: Array<{ __typename?: 'Episode', id?: string | null, name?: string | null, air_date?: string | null, episode?: string | null, created?: string | null } | null> } | null };
+export type LocationByIdQuery = { __typename?: 'Query', location?: { __typename?: 'Location', id?: string | null, name?: string | null, type?: string | null, dimension?: string | null, created?: string | null, residents: Array<{ __typename?: 'Character', id?: string | null, name?: string | null, image?: string | null } | null> } | null };
 
-export type CharactersIdQueryVariables = Exact<{ [key: string]: never; }>;
+export type LocationsIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CharactersIdQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', results?: Array<{ __typename?: 'Character', id?: string | null } | null> | null } | null };
+export type LocationsIdQuery = { __typename?: 'Query', locations?: { __typename?: 'Locations', results?: Array<{ __typename?: 'Location', id?: string | null } | null> | null } | null };
 
 export const EpisodeFragFragmentDoc = /*#__PURE__*/ gql`
     fragment EpisodeFrag on Episode {
@@ -278,48 +302,6 @@ export const LocationFragFragmentDoc = /*#__PURE__*/ gql`
   type
   dimension
   created
-}
-    `;
-export const EpisodePagesDocument = /*#__PURE__*/ gql`
-    query EpisodePages {
-  episodes {
-    info {
-      pages
-    }
-  }
-}
-    `;
-export const EpisodesDocument = /*#__PURE__*/ gql`
-    query Episodes($page: Int = 1) {
-  episodes(page: $page) {
-    info {
-      count
-      pages
-    }
-    results {
-      ...EpisodeFrag
-    }
-  }
-}
-    ${EpisodeFragFragmentDoc}`;
-export const EpisodeByIdDocument = /*#__PURE__*/ gql`
-    query EpisodeById($id: ID!) {
-  episode(id: $id) {
-    ...EpisodeFrag
-    characters {
-      ...EpisodeCharactersFrag
-    }
-  }
-}
-    ${EpisodeFragFragmentDoc}
-${EpisodeCharactersFragFragmentDoc}`;
-export const EpisodesIdDocument = /*#__PURE__*/ gql`
-    query EpisodesId {
-  episodes {
-    results {
-      id
-    }
-  }
 }
     `;
 export const CharacterPagesDocument = /*#__PURE__*/ gql`
@@ -376,6 +358,89 @@ export const CharactersIdDocument = /*#__PURE__*/ gql`
   }
 }
     `;
+export const EpisodePagesDocument = /*#__PURE__*/ gql`
+    query EpisodePages {
+  episodes {
+    info {
+      pages
+    }
+  }
+}
+    `;
+export const EpisodesDocument = /*#__PURE__*/ gql`
+    query Episodes($page: Int = 1) {
+  episodes(page: $page) {
+    info {
+      count
+      pages
+    }
+    results {
+      ...EpisodeFrag
+    }
+  }
+}
+    ${EpisodeFragFragmentDoc}`;
+export const EpisodeByIdDocument = /*#__PURE__*/ gql`
+    query EpisodeById($id: ID!) {
+  episode(id: $id) {
+    ...EpisodeFrag
+    characters {
+      ...EpisodeCharactersFrag
+    }
+  }
+}
+    ${EpisodeFragFragmentDoc}
+${EpisodeCharactersFragFragmentDoc}`;
+export const EpisodesIdDocument = /*#__PURE__*/ gql`
+    query EpisodesId {
+  episodes {
+    results {
+      id
+    }
+  }
+}
+    `;
+export const LocationPagesDocument = /*#__PURE__*/ gql`
+    query LocationPages {
+  locations {
+    info {
+      pages
+    }
+  }
+}
+    `;
+export const LocationsDocument = /*#__PURE__*/ gql`
+    query Locations($page: Int = 1) {
+  locations(page: $page) {
+    info {
+      pages
+    }
+    results {
+      ...LocationFrag
+    }
+  }
+}
+    ${LocationFragFragmentDoc}`;
+export const LocationByIdDocument = /*#__PURE__*/ gql`
+    query LocationById($id: ID!) {
+  location(id: $id) {
+    ...LocationFrag
+    residents {
+      ...EpisodeCharactersFrag
+    }
+  }
+}
+    ${LocationFragFragmentDoc}
+${EpisodeCharactersFragFragmentDoc}`;
+export const LocationsIdDocument = /*#__PURE__*/ gql`
+    query LocationsId {
+  locations {
+    results {
+      id
+    }
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -384,6 +449,18 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    CharacterPages(variables?: CharacterPagesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CharacterPagesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CharacterPagesQuery>(CharacterPagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CharacterPages', 'query');
+    },
+    Characters(variables?: CharactersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CharactersQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CharactersQuery>(CharactersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Characters', 'query');
+    },
+    CharacterById(variables: CharacterByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CharacterByIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CharacterByIdQuery>(CharacterByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CharacterById', 'query');
+    },
+    CharactersId(variables?: CharactersIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CharactersIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CharactersIdQuery>(CharactersIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CharactersId', 'query');
+    },
     EpisodePages(variables?: EpisodePagesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<EpisodePagesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<EpisodePagesQuery>(EpisodePagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'EpisodePages', 'query');
     },
@@ -396,17 +473,17 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     EpisodesId(variables?: EpisodesIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<EpisodesIdQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<EpisodesIdQuery>(EpisodesIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'EpisodesId', 'query');
     },
-    CharacterPages(variables?: CharacterPagesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CharacterPagesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CharacterPagesQuery>(CharacterPagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CharacterPages', 'query');
+    LocationPages(variables?: LocationPagesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<LocationPagesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<LocationPagesQuery>(LocationPagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'LocationPages', 'query');
     },
-    Characters(variables?: CharactersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CharactersQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CharactersQuery>(CharactersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Characters', 'query');
+    Locations(variables?: LocationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<LocationsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<LocationsQuery>(LocationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Locations', 'query');
     },
-    CharacterById(variables: CharacterByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CharacterByIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CharacterByIdQuery>(CharacterByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CharacterById', 'query');
+    LocationById(variables: LocationByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<LocationByIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<LocationByIdQuery>(LocationByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'LocationById', 'query');
     },
-    CharactersId(variables?: CharactersIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CharactersIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CharactersIdQuery>(CharactersIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CharactersId', 'query');
+    LocationsId(variables?: LocationsIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<LocationsIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<LocationsIdQuery>(LocationsIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'LocationsId', 'query');
     }
   };
 }
