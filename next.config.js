@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // reactStrictMode: true,
+  reactStrictMode: true,
   swcMinify: true,
   typescript: { ignoreBuildErrors: true },
   compiler: {
@@ -22,12 +22,22 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/episodes",
+        destination: "/episode/1",
+        permanent: true,
+      },
+      {
         source: "/episode/details",
         destination: "/episode/1",
         permanent: true,
       },
       {
         source: "/character",
+        destination: "/character/1",
+        permanent: true,
+      },
+      {
+        source: "/characters",
         destination: "/character/1",
         permanent: true,
       },
