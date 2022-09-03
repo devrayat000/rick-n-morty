@@ -27,7 +27,7 @@ function ExampleApp({ Component, pageProps }: AppProps) {
       <AppShell header={<MyHeader />} fixed={false}>
         <Component {...pageProps} />
       </AppShell>
-      {/* <Script
+      <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_MEASUREMENT_ID}`}
       />
@@ -39,7 +39,7 @@ function ExampleApp({ Component, pageProps }: AppProps) {
 
           gtag('config', '${process.env.NEXT_PUBLIC_MEASUREMENT_ID}');
         `}
-      </Script> */}
+      </Script>
     </MantineProvider>
   );
 }
