@@ -20,6 +20,7 @@ import Image from "next/future/image";
 
 import ExpisodeCard from "~/components/episode/EpisodeCard";
 import Info from "~/components/common/Info";
+import api from "~/secvices/api";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 // type Props = any;
@@ -133,7 +134,6 @@ const CharacterDetailsPage: NextPage<Props> = ({ id, data }) => {
 export default CharacterDetailsPage;
 
 export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
-  const { default: api } = await import("~/secvices/fetch");
   const data = await api.CharactersId();
 
   return {
@@ -145,8 +145,6 @@ export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
 };
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
-  const { default: api } = await import("~/secvices/fetch");
-
   const id = ctx.params?.id as string;
 
   return {

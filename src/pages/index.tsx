@@ -17,6 +17,7 @@ import { NextLink } from "@mantine/next";
 import { IconDots } from "@tabler/icons";
 
 import ExpisodeCard from "~/components/episode/EpisodeCard";
+import api from "~/secvices/api";
 
 const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   episodes,
@@ -65,7 +66,6 @@ const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 export default HomePage;
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
-  const { default: api } = await import("~/secvices/fetch");
   return {
     props: await api.Everything(),
     revalidate: 86400 * 7, // 7 days

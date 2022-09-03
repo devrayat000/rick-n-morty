@@ -8,6 +8,7 @@ import type {
 import { useRouter } from "next/router";
 
 import ExpisodeCard from "~/components/episode/EpisodeCard";
+import api from "~/secvices/api";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -54,7 +55,6 @@ const EpisodesPage: NextPage<Props> = ({ page, data }) => {
 };
 
 export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
-  const { default: api } = await import("~/secvices/fetch");
   const { episodes } = await api.EpisodePages();
 
   return {
@@ -66,7 +66,6 @@ export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
 };
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
-  const { default: api } = await import("~/secvices/fetch");
   const page = parseInt(ctx.params?.page as string);
 
   return {

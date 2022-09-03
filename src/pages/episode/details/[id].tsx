@@ -16,6 +16,7 @@ import type {
 import Head from "next/head";
 
 import CharacterCard from "~/components/character/CharacterCard";
+import api from "~/secvices/api";
 
 function getEpisodeById(id: string) {
   return import("~/secvices/api").then((m) => m.default.EpisodeById({ id }));
@@ -75,7 +76,6 @@ const EpisodeDetailsPage: NextPage<
 export default EpisodeDetailsPage;
 
 export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
-  const { default: api } = await import("~/secvices/fetch");
   const data = await api.EpisodesId();
 
   return {
@@ -87,8 +87,6 @@ export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
 };
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
-  const { default: api } = await import("~/secvices/fetch");
-
   const id = ctx.params?.id as string;
 
   return {
