@@ -1,8 +1,6 @@
 import type { AppProps } from "next/app";
 import { AppShell, MantineProvider } from "@mantine/core";
-import { Hydrate, QueryClientProvider } from "@tanstack/react-query";
 
-import rqClient from "~/modules/rq-client";
 import MyHeader from "~/components/common/Header";
 import { RouterTransition } from "~/components/common/RouterTransition";
 import Seo from "~/components/common/Seo";
@@ -24,13 +22,9 @@ function ExampleApp({ Component, pageProps }: AppProps) {
       }}
     >
       <Seo />
+      <RouterTransition />
       <AppShell header={<MyHeader />} fixed={false}>
-        <RouterTransition />
-        <QueryClientProvider client={rqClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <Component {...pageProps} />
-          </Hydrate>
-        </QueryClientProvider>
+        <Component {...pageProps} />
       </AppShell>
     </MantineProvider>
   );

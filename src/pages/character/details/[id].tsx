@@ -8,7 +8,6 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import type {
   GetStaticPathsContext,
@@ -22,19 +21,13 @@ import Image from "next/future/image";
 import ExpisodeCard from "~/components/episode/EpisodeCard";
 import Info from "~/components/common/Info";
 
-function getCharacterById(id: string) {
-  return import("~/secvices/api").then((m) => m.default.CharacterById({ id }));
-}
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
+// type Props = any;
 
-const CharacterDetailsPage: NextPage<
-  InferGetStaticPropsType<typeof getStaticProps>
-> = ({ id }) => {
-  const { data, isFetching } = useQuery(["character", id], ({ queryKey }) =>
-    getCharacterById(queryKey[1])
-  );
+const CharacterDetailsPage: NextPage<Props> = ({ id, data }) => {
   const router = useRouter();
 
-  if (isFetching || router.isFallback) {
+  if (router.isFallback) {
     return <LoadingOverlay visible />;
   }
 
@@ -140,7 +133,7 @@ const CharacterDetailsPage: NextPage<
 export default CharacterDetailsPage;
 
 export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
-  const { default: api } = await import("~/secvices/api");
+  const { default: api } = await import("~/secvices/fetch");
   const data = await api.CharactersId();
 
   return {
@@ -152,21 +145,13 @@ export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
 };
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
-  const [{ dehydrate }, { default: rqClient }, { default: api }] =
-    await Promise.all([
-      import("@tanstack/react-query"),
-      import("~/modules/rq-client"),
-      import("~/secvices/api"),
-    ]);
+  const { default: api } = await import("~/secvices/fetch");
 
   const id = ctx.params?.id as string;
-  await rqClient.prefetchQuery(["character", id], ({ queryKey }) =>
-    api.CharacterById({ id: queryKey[1] })
-  );
 
   return {
     props: {
-      dehydratedState: dehydrate(rqClient),
+      data: await api.CharacterById({ id }),
       id,
     },
   };

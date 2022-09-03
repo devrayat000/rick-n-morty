@@ -1,12 +1,4 @@
-import {
-  Container,
-  Group,
-  LoadingOverlay,
-  Pagination,
-  SimpleGrid,
-  Title,
-} from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
+import { Container, Group, Pagination, SimpleGrid, Title } from "@mantine/core";
 import type {
   GetStaticPathsContext,
   GetStaticPropsContext,
@@ -17,23 +9,10 @@ import { useRouter } from "next/router";
 
 import ExpisodeCard from "~/components/episode/EpisodeCard";
 
-function getEpisodesByPage(page: number | string) {
-  return import("~/secvices/api").then((m) =>
-    m.default.Episodes({ page: page as number })
-  );
-}
-
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const EpisodesPage: NextPage<Props> = ({ page }) => {
-  const { data, isFetching } = useQuery(["episodes", page], ({ queryKey }) =>
-    getEpisodesByPage(queryKey[1])
-  );
+const EpisodesPage: NextPage<Props> = ({ page, data }) => {
   const router = useRouter();
-
-  if (isFetching || router.isFallback) {
-    return <LoadingOverlay visible />;
-  }
 
   return (
     <Container>
@@ -75,7 +54,7 @@ const EpisodesPage: NextPage<Props> = ({ page }) => {
 };
 
 export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
-  const { default: api } = await import("~/secvices/api");
+  const { default: api } = await import("~/secvices/fetch");
   const { episodes } = await api.EpisodePages();
 
   return {
@@ -87,21 +66,12 @@ export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
 };
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
-  const [{ dehydrate }, { default: rqClient }, { default: api }] =
-    await Promise.all([
-      import("@tanstack/react-query"),
-      import("~/modules/rq-client"),
-      import("~/secvices/api"),
-    ]);
+  const { default: api } = await import("~/secvices/fetch");
   const page = parseInt(ctx.params?.page as string);
-
-  await rqClient.prefetchQuery(["episodes", page], ({ queryKey }) =>
-    api.Episodes({ page: queryKey[1] as number })
-  );
 
   return {
     props: {
-      dehydratedState: dehydrate(rqClient),
+      data: await api.Episodes({ page }),
       page,
     },
   };

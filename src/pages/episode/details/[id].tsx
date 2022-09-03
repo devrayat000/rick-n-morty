@@ -6,7 +6,6 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import type {
   GetStaticPathsContext,
@@ -24,13 +23,10 @@ function getEpisodeById(id: string) {
 
 const EpisodeDetailsPage: NextPage<
   InferGetStaticPropsType<typeof getStaticProps>
-> = ({ id }) => {
-  const { data, isFetching } = useQuery(["episode", id], ({ queryKey }) =>
-    getEpisodeById(queryKey[1])
-  );
+> = ({ id, data }) => {
   const router = useRouter();
 
-  if (isFetching || router.isFallback) {
+  if (router.isFallback) {
     return <LoadingOverlay visible />;
   }
 
@@ -79,7 +75,7 @@ const EpisodeDetailsPage: NextPage<
 export default EpisodeDetailsPage;
 
 export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
-  const { default: api } = await import("~/secvices/api");
+  const { default: api } = await import("~/secvices/fetch");
   const data = await api.EpisodesId();
 
   return {
@@ -91,21 +87,13 @@ export const getStaticPaths = async (ctx: GetStaticPathsContext) => {
 };
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
-  const [{ dehydrate }, { default: rqClient }, { default: api }] =
-    await Promise.all([
-      import("@tanstack/react-query"),
-      import("~/modules/rq-client"),
-      import("~/secvices/api"),
-    ]);
+  const { default: api } = await import("~/secvices/fetch");
 
   const id = ctx.params?.id as string;
-  await rqClient.prefetchQuery(["episode", id], ({ queryKey }) =>
-    api.EpisodeById({ id: queryKey[1] })
-  );
 
   return {
     props: {
-      dehydratedState: dehydrate(rqClient),
+      data: await api.EpisodeById({ id }),
       id,
     },
   };

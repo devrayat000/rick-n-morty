@@ -279,6 +279,11 @@ export type LocationsIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type LocationsIdQuery = { __typename?: 'Query', locations?: { __typename?: 'Locations', results?: Array<{ __typename?: 'Location', id?: string | null } | null> | null } | null };
 
+export type EverythingQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EverythingQuery = { __typename?: 'Query', episodes?: { __typename?: 'Episodes', results?: Array<{ __typename?: 'Episode', id?: string | null, name?: string | null, episode?: string | null, air_date?: string | null } | null> | null } | null, characters?: { __typename?: 'Characters', results?: Array<{ __typename?: 'Character', id?: string | null, name?: string | null, image?: string | null } | null> | null } | null, locations?: { __typename?: 'Locations', results?: Array<{ __typename?: 'Location', id?: string | null, name?: string | null, type?: string | null, dimension?: string | null } | null> | null } | null };
+
 export const EpisodeFragFragmentDoc = /*#__PURE__*/ gql`
     fragment EpisodeFrag on Episode {
   id
@@ -441,6 +446,33 @@ export const LocationsIdDocument = /*#__PURE__*/ gql`
   }
 }
     `;
+export const EverythingDocument = /*#__PURE__*/ gql`
+    query Everything {
+  episodes {
+    results {
+      id
+      name
+      episode
+      air_date
+    }
+  }
+  characters {
+    results {
+      id
+      name
+      image
+    }
+  }
+  locations {
+    results {
+      id
+      name
+      type
+      dimension
+    }
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -484,6 +516,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     LocationsId(variables?: LocationsIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<LocationsIdQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<LocationsIdQuery>(LocationsIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'LocationsId', 'query');
+    },
+    Everything(variables?: EverythingQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<EverythingQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<EverythingQuery>(EverythingDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Everything', 'query');
     }
   };
 }

@@ -17,3 +17,16 @@ extensions:
           dedupeFragments: true
           pureMagicComment: true
           useTypeImports: true
+
+      src/graphql/generic.ts:
+        plugins:
+          - typescript
+          - typescript-operations
+          - typescript-generic-sdk
+        config:
+          documentNodeImport: ./document-node#DocumentNode
+          optimizeDocumentNode: false
+          gqlImport: ./gql#gql
+          dedupeFragments: true
+          pureMagicComment: true
+          useTypeImports: true

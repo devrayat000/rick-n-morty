@@ -5,17 +5,17 @@ specifiers:
   '@emotion/server': ^11.10.0
   '@graphql-codegen/cli': ^2.12.0
   '@graphql-codegen/typescript': ^2.7.3
+  '@graphql-codegen/typescript-generic-sdk': ^3.0.1
   '@graphql-codegen/typescript-graphql-request': ^4.5.4
   '@graphql-codegen/typescript-operations': ^2.5.3
   '@mantine/core': ^5.2.4
   '@mantine/hooks': ^5.2.4
   '@mantine/next': ^5.2.4
   '@mantine/nprogress': ^5.2.4
-  '@tanstack/react-query': ^4.2.3
+  '@tabler/icons': ^1.92.0
   '@types/node': 18.7.14
   '@types/react': 18.0.18
   '@types/react-dom': 18.0.6
-  dayjs: ^1.11.5
   eslint: 8.23.0
   eslint-config-next: 12.2.5
   graphql: ^16.6.0
@@ -32,8 +32,7 @@ dependencies:
   '@mantine/hooks': 5.2.4_react@18.2.0
   '@mantine/next': 5.2.4_344e01fd9290d16c52683a9f3eb2b13c
   '@mantine/nprogress': 5.2.4_7b5d3cb6926f7f885974cb015642a69a
-  '@tanstack/react-query': 4.2.3_react-dom@18.2.0+react@18.2.0
-  dayjs: 1.11.5
+  '@tabler/icons': 1.92.0_react-dom@18.2.0+react@18.2.0
   graphql: 16.6.0
   graphql-request: 5.0.0_graphql@16.6.0
   next: 12.2.5_react-dom@18.2.0+react@18.2.0
@@ -43,6 +42,7 @@ dependencies:
 devDependencies:
   '@graphql-codegen/cli': 2.12.0_e4de5beafc8d6b2a76a9d9675162a4cf
   '@graphql-codegen/typescript': 2.7.3_graphql@16.6.0
+  '@graphql-codegen/typescript-generic-sdk': 3.0.1_graphql@16.6.0
   '@graphql-codegen/typescript-graphql-request': 4.5.4_faf3ee7daa33aa5e3331d4913683f099
   '@graphql-codegen/typescript-operations': 2.5.3_graphql@16.6.0
   '@types/node': 18.7.14
@@ -922,6 +922,22 @@ packages:
       tslib: 2.4.0
     dev: true
 
+  /@graphql-codegen/typescript-generic-sdk/3.0.1_graphql@16.6.0:
+    resolution: {integrity: sha512-XoCuZj1Th1wfLTsMMuqukaZBOgdM9dpQo9ut4pAurZUubxfatMJGB+OxeRJ/tc60mbJ9cEXyn2iN4mlSbtWbTg==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+      graphql-tag: ^2.0.0
+    dependencies:
+      '@graphql-codegen/plugin-helpers': 2.7.0_graphql@16.6.0
+      '@graphql-codegen/visitor-plugin-common': 2.12.1_graphql@16.6.0
+      auto-bind: 4.0.0
+      graphql: 16.6.0
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: true
+
   /@graphql-codegen/typescript-graphql-request/4.5.4_faf3ee7daa33aa5e3331d4913683f099:
     resolution: {integrity: sha512-RaLtrufaRu1nWwx4FhJWqYsjyp4ZRv1sB0iTauoTxk9ImGiCulx++bLZGY+0UzzEh5m+unUW6ZFDZGUD5r+HZw==}
     peerDependencies:
@@ -1754,27 +1770,19 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /@tanstack/query-core/4.2.3:
-    resolution: {integrity: sha512-zdt5lYWs1dZaA3IxJbCgtAfHZJScRZONpiLL7YkeOkrme5MfjQqTpjq7LYbzpyuwPOh2Jx68le0PLl57JFv5hQ==}
-    dev: false
-
-  /@tanstack/react-query/4.2.3_react-dom@18.2.0+react@18.2.0:
-    resolution: {integrity: sha512-JLaMOxoJTkiAu7QpevRCt2uI/0vd3E8K/rSlCuRgWlcW5DeJDFpDS5kfzmLO5MOcD97fgsJRrDbxDORxR1FdJA==}
+  /@tabler/icons/1.92.0_react-dom@18.2.0+react@18.2.0:
+    resolution: {integrity: sha512-eZP5jYvNPtZKiWj1Bn2C+zjvGXhQoormXAyE3TH7ihCxXBHMzKF/ZLYhU3rnMC/+NjuLDBifKc6dmwoh7s62vQ==}
     peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-native: '*'
+      react: ^16.x || 17.x || 18.x
+      react-dom: ^16.x || 17.x || 18.x
     peerDependenciesMeta:
+      react:
+        optional: true
       react-dom:
         optional: true
-      react-native:
-        optional: true
     dependencies:
-      '@tanstack/query-core': 4.2.3
-      '@types/use-sync-external-store': 0.0.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
   /@tootallnate/once/2.0.0:
@@ -1844,10 +1852,6 @@ packages:
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
     dev: true
-
-  /@types/use-sync-external-store/0.0.3:
-    resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
-    dev: false
 
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
@@ -2550,10 +2554,6 @@ packages:
   /dataloader/2.1.0:
     resolution: {integrity: sha512-qTcEYLen3r7ojZNgVUaRggOI+KM7jrKxXeSHhogh/TWxYMeONEMqY+hmkobiYQozsGIyg9OYVzO4ZIfoB4I0pQ==}
     dev: true
-
-  /dayjs/1.11.5:
-    resolution: {integrity: sha512-CAdX5Q3YW3Gclyo5Vpqkgpj8fSdLQcRuzfX6mC6Phy0nfJ0eGYOeS7m4mt2plDWLAtA4TqTakvbboHvUxfe4iA==}
-    dev: false
 
   /debounce/1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}

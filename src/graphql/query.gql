@@ -1,0 +1,25 @@
+query Everything {
+  episodes {
+    results {
+      id
+      name
+      episode
+      air_date
+    }
+  }
+  characters {
+    results {
+      id
+      name
+      image
+    }
+  }
+  locations {
+    results {
+      id
+      name
+      type
+      dimension
+    }
+  }
+}
