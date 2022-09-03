@@ -2,7 +2,7 @@ import { Box, Card, Text } from "@mantine/core";
 import { NextLink } from "@mantine/next";
 import Image from "next/future/image";
 
-import type { EpisodeByIdQuery } from "~/graphql/generated";
+import type { EpisodeByIdQuery } from "~/graphql/generic";
 
 export type CharacterCardProps = {
   character: Exclude<
@@ -18,6 +18,7 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
       prefetch={false}
       href="/character/details/[id]"
       as={`/character/details/${character?.id}`}
+      sx={{ flex: "1 1 0px" }}
     >
       <Card.Section>
         <Box

@@ -69,10 +69,10 @@ const DEFAULT_LINKS: HeaderResponsiveProps["links"] = [
     label: "Characters",
     link: "/character",
   },
-  {
-    label: "Locations",
-    link: "/location",
-  },
+  // {
+  //   label: "Locations",
+  //   link: "/location",
+  // },
 ];
 
 export default function MyHeader({

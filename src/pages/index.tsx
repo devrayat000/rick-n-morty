@@ -4,20 +4,12 @@ import type {
   NextPage,
 } from "next";
 import Head from "next/head";
-import {
-  Box,
-  Container,
-  Group,
-  Paper,
-  ScrollArea,
-  Text,
-  Title,
-} from "@mantine/core";
-import { NextLink } from "@mantine/next";
-import { IconDots } from "@tabler/icons";
+import { Container, Text, Title } from "@mantine/core";
 
 import ExpisodeCard from "~/components/episode/EpisodeCard";
 import api from "~/secvices/api";
+import Items from "~/components/home/Items";
+import CharacterCard from "~/components/character/CharacterCard";
 
 const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   episodes,
@@ -27,8 +19,11 @@ const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   return (
     <Container>
       <Head>
-        <title>Rock n Morty</title>
-        <meta name="description" content="Morty & Rick Database" />
+        <title>Rick n Morty</title>
+        <meta
+          name="description"
+          content="Rick n Morty Database is a free website where you can find every information about episodes, characters and locations (coming soon)"
+        />
       </Head>
 
       <Text component="p" size="xl" weight={600} my="0">
@@ -36,29 +31,21 @@ const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       </Text>
       <Title order={1}>Morty n Rick</Title>
 
-      <Box mt="xl">
-        <Title order={2}>Episodes</Title>
-        <ScrollArea mt="md" offsetScrollbars style={{ width: "100%" }}>
-          <Group sx={{ width: "max-content" }} align="stretch">
-            {episodes?.results?.map((episode) => (
-              <ExpisodeCard key={episode?.id} episode={episode} />
-            ))}
-            <Paper
-              withBorder
-              radius="md"
-              p="md"
-              component={NextLink}
-              href="/episodes"
-              color="blue"
-            >
-              <Text component="p" size="xl" weight={600}>
-                See More
-                <IconDots />
-              </Text>
-            </Paper>
-          </Group>
-        </ScrollArea>
-      </Box>
+      <Items title="Episodes" link="/episode">
+        {episodes?.results?.map((episode) => (
+          <ExpisodeCard key={episode?.id} episode={episode} />
+        ))}
+      </Items>
+      <Items title="Characters" link="/character">
+        {characters?.results?.map((character) => (
+          <CharacterCard key={character?.id} character={character} />
+        ))}
+      </Items>
+      {/* <Items title="Episodes" link="/episodes">
+        {episodes?.results?.map((episode) => (
+          <ExpisodeCard key={episode?.id} episode={episode} />
+        ))}
+      </Items> */}
     </Container>
   );
 };
